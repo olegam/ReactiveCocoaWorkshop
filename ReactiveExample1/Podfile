@@ -1,0 +1,24 @@
+platform :ios, '6.0'
+inhibit_all_warnings!
+
+pod 'ReactiveCocoa', '1.9.4'
+pod 'Masonry'
+#pod 'DCIntrospect'
+
+
+# Pods you proabably also want
+
+# pod 'SHPNetworking'
+# pod 'SHPUIKit'
+# pod 'SDWebImage'
+# pod 'TestFlightSDK'
+# pod 'POViewFrameBuilder'
+# pod 'BlocksKit'
+
+# Some pods you might also want:
+
+# pod 'GVUserDefaults'
+# pod 'SSToolkit'
+# pod 'TPKeyboardAvoiding'
+# pod 'ViewUtils'
+# pod 'NSDate-Extensions'

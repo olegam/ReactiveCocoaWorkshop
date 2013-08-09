@@ -14,6 +14,8 @@
 @property(nonatomic, strong) NSString *repeatPassword;
 
 // properties to be read from the view
-@property(nonatomic, assign) BOOL canSubmit;
+@property(nonatomic, assign) BOOL formValid;
+
+- (RACCommand *)submitCommand;
 
 @end

@@ -16,7 +16,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
 	SignupViewController *signupViewController = [SignupViewController new];
-	self.window.rootViewController = signupViewController;
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupViewController];
+	self.window.rootViewController = navigationController;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

@@ -13,6 +13,7 @@
 @property(nonatomic, strong) UITextField *passwordTextField;
 @property(nonatomic, strong) UITextField *repeatPasswordTextField;
 @property(nonatomic, strong) UIButton *submitButton;
+@property(nonatomic, strong) UIBarButtonItem *submitBarButton;
 
 @property(nonatomic, strong) SignupViewModel *viewModel;
 @end
@@ -39,6 +40,8 @@
 	[self.view addSubview:self.passwordTextField];
 	[self.view addSubview:self.repeatPasswordTextField];
 	[self.view addSubview:self.submitButton];
+
+	[self.navigationItem setRightBarButtonItem:self.submitBarButton];
 }
 
 - (void)viewDidLoad {
@@ -53,12 +56,20 @@
 	RAC(self.viewModel.password) = self.passwordTextField.rac_textSignal;
 	RAC(self.viewModel.repeatPassword) = self.repeatPasswordTextField.rac_textSignal;
 
-	RAC(self.submitButton.enabled) = RACAbleWithStart(self.viewModel.canSubmit);
+	// easy to hook up with bar button item
+	self.submitBarButton.rac_command = self.viewModel.submitCommand;
+
+	// To connect command with UIButton we must connect both the action and the enabled state
+	RAC(self.submitButton.enabled) = RACAbleWithStart(self.viewModel.submitCommand.canExecute);
+	SignupViewModel *viewModel = self.viewModel;
+	[[self.submitButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+		[viewModel.submitCommand execute:nil];
+	}];
 }
 
 - (void)setupLayout {
 	[self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).with.offset(30.f);
+		make.top.equalTo(self.view).with.offset(70.f);
 		make.centerX.equalTo(self.view);
 		make.width.equalTo(self.view).with.offset(-40.f);
 		make.height.equalTo(@30.f);
@@ -123,5 +134,11 @@
 	return _submitButton;
 }
 
+- (UIBarButtonItem *)submitBarButton {
+	if (!_submitBarButton) {
+		_submitBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Submit" style:UIBarButtonItemStylePlain target:nil action:nil];
+	}
+	return _submitBarButton;
+}
 
 @end

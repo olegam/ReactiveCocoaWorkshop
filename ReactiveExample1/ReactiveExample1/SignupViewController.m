@@ -57,7 +57,6 @@
 }
 
 - (void)setupLayout {
-
 	[self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).with.offset(30.f);
 		make.centerX.equalTo(self.view);
@@ -83,6 +82,8 @@
 		make.top.equalTo(self.repeatPasswordTextField.mas_bottom).offset(30.f);
 	}];
 }
+
+#pragma mark - Views
 
 - (UITextField *)usernameTextField {
 	if (!_usernameTextField) {
@@ -121,8 +122,6 @@
 	}
 	return _submitButton;
 }
-
-
 
 
 @end

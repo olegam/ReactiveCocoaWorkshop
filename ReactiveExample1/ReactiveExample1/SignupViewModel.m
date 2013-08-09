@@ -16,8 +16,7 @@ static const int kPasswordMinimumLength = 6;
 - (id)init {
 	self = [super init];
 	if (self) {
-
-		RACSignal *allCriteriaTrueSignal = [[RACSignal combineLatest:@[[self usernameValidSignal], [self passwordLongEnoughSignal], [self passwordsMatch]]] map:^id(RACTuple *tuple) {
+		RACSignal *allCriteriaTrueSignal = [[RACSignal combineLatest:@[[self usernameValidSignal], [self passwordLongEnoughSignal], [self passwordsMatchSignal]]] map:^id(RACTuple *tuple) {
 			BOOL allYes = [tuple.rac_sequence all:^(NSNumber *num) {
 				return num.boolValue;
 			}];
@@ -25,10 +24,8 @@ static const int kPasswordMinimumLength = 6;
 		}];
 		RAC(self.canSubmit) = allCriteriaTrueSignal;
 	}
-
 	return self;
 }
-
 
 - (RACSignal *)usernameValidSignal {
 	return [RACAbleWithStart(self.username) map:^id(NSString *username) {
@@ -42,11 +39,10 @@ static const int kPasswordMinimumLength = 6;
 	}];
 }
 
-- (RACSignal *)passwordsMatch {
+- (RACSignal *)passwordsMatchSignal {
 	return [RACSignal combineLatest:@[RACAbleWithStart(self.password), RACAbleWithStart(self.repeatPassword)] reduce:^id(NSString *password, NSString *repeatPassword) {
 		return @([password isEqualToString:repeatPassword]);
 	}];
 }
-
 
 @end
